@@ -31,7 +31,7 @@ mongoose
       useNewUrlParser: true
     }
   )
-  .then(app.listen(3000))
+  .then(app.listen(3001))
   .catch(e => {
     console.log(e);
   });
