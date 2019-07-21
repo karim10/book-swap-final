@@ -29,7 +29,7 @@ export class CardComponent extends React.Component<CardComponentProps, CardCompo
       })
     }, (e) => console.log(e))
   }
-W
+  
   public render() {
     const { title, authors, categories, imageURI, pageCount } = this.props;
     return <Card>
