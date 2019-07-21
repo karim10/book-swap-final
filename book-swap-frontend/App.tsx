@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Content, Header} from 'native-base';
 import { CardComponent, CardComponentProps } from './components/Card';
+import { Navigation } from 'react-native-navigation';
 
 interface HomeState {
   books: any[];
@@ -14,7 +15,7 @@ export default class Home extends React.Component <{}, HomeState>{
   }
 
   componentDidMount() {
-    fetch('https://www.googleapis.com/books/v1/volumes?q=harry+potter').then(
+    fetch('https://www.googleapis.com/books/v1/volumes?q=game+of+thrones').then(
       (response) => response.json()
     ).then(result => {
       this.setState({
@@ -39,6 +40,7 @@ export default class Home extends React.Component <{}, HomeState>{
             }
             return <CardComponent key={book.id} {...cardComponentProps} />
           })}
+          
         </Content>
       </Container>
     );
