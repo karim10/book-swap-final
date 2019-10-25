@@ -1,11 +1,13 @@
 import React from 'react';
-import { Container, Content, Header} from 'native-base';
-import { CardComponent, CardComponentProps } from '../components/Card';
+import { Container, Content } from 'native-base';
+import { CardComponent, CardComponentProps } from '../../components/Card';
+import { Button, AsyncStorage } from 'react-native';
+import deviceStorage from '../../deviceStorage';
 
 interface HomeState {
   books: any[];
 }
-export default class Home extends React.Component <{}, HomeState>{
+export class Feed extends React.Component<any, HomeState>{
   constructor(props) {
     super(props);
     this.state = {
@@ -24,10 +26,14 @@ export default class Home extends React.Component <{}, HomeState>{
     )
   }
 
+  signOutAsync = async () => {
+    await deviceStorage.clear();
+    this.props.navigation.navigate('SignIn');
+  }
+
   render() {
     return (
       <Container>
-        <Header />
         <Content>
           {this.state.books.map(book => {
             const cardComponentProps: CardComponentProps = {
@@ -39,8 +45,8 @@ export default class Home extends React.Component <{}, HomeState>{
             }
             return <CardComponent key={book.id} {...cardComponentProps} />
           })}
-          
         </Content>
+        <Button title="Actually, sign me out :)" onPress={this.signOutAsync} />
       </Container>
     );
   }

@@ -11,18 +11,24 @@
     "@types/jest": "^24.0.15",
     "@types/node": "^12.6.4",
     "@types/react": "^16.8.23",
+    "@types/react-autosuggest": "^9.3.13",
     "@types/react-dom": "^16.8.4",
     "@types/react-native": "^0.60.2",
     "@types/react-native-navigation": "^2.0.0",
+    "@types/validator": "^10.11.3",
+    "axios": "^0.19.0",
     "expo": "^33.0.0",
     "native-base": "^2.12.1",
     "react": "16.8.3",
+    "react-autosuggest": "^9.4.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.1",
-    "typescript": "^3.5.3"
+    "tcomb-form-native": "^0.6.20",
+    "typescript": "^3.5.3",
+    "validator": "^11.1.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1"

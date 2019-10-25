@@ -11,7 +11,6 @@ module.exports = buildSchema(`
           email: String!
           password: String!
           ownedBooks: [Book!]!
-          location: String
         }
 
         type AuthData {
@@ -37,7 +36,7 @@ module.exports = buildSchema(`
  
         type RootMutation {
             addBookToCurrentUser(bookId: ID!): User
-            createUser(userInput: UserInput!): User
+            createUser(userInput: UserInput!): AuthData!
             addBook(bookInput: BookInput!): Book
         }
 

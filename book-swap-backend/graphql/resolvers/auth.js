@@ -4,7 +4,10 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 
 module.exports = {
-  users: async () => {
+  users: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error('Unauthenticated!');
+    }
     try {
       return await User.find();
     } catch (err) {
@@ -23,10 +26,8 @@ module.exports = {
         password: hashedPassword,
       });
       const result = await user.save();
-      return {
-        ...result._doc,
-        password: null,
-      };
+      const token = jwt.sign({ userId: result._id, email: result.email }, 'somesupersecretkey', { expiresIn: '1h' });
+      return { userId: result._id, token: token, tokenExpiration: 1 };
     } catch (err) {
       throw err;
     }

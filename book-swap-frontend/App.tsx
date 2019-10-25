@@ -1,27 +1,45 @@
 import React from 'react';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
-import MyLibrary from './views/MyLibrary';
-import Home from './views/Home';
+import { createStackNavigator, createAppContainer, createSwitchNavigator, NavigationScreenProps } from 'react-navigation';
+import { ActivityIndicator, StatusBar, View } from 'react-native';
+import { LoginPage } from './views/Auth/LoginPage';
+import Home from './views/App/Home';
+import { SignUpPage } from './views/Auth/SignUpPage';
+import deviceStorage from './deviceStorage';
 
-export default class App extends React.Component {
+const AppStack = createStackNavigator({ Home: Home });
+const AuthStack = createStackNavigator({ SignIn: LoginPage, SignUp: SignUpPage }, {
+  headerMode: 'none'
+})
+
+class AuthLoadingScreen extends React.Component<NavigationScreenProps, {}> {
+  componentDidMount() {
+    this.bootstrapAsync();
+  }
+
+  bootstrapAsync = async () => {
+    const userToken = await deviceStorage.getItem('id_token');
+    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+  }
+
   render() {
     return (
-      <AppContainer />
+      <View>
+        <ActivityIndicator />
+        <StatusBar barStyle="default" />
+      </View>
     )
   }
 }
 
-const AppTabNavigator = createBottomTabNavigator({
-  Home: Home,
-  MyLibrary: MyLibrary
-}, {
-    tabBarOptions: {
-      activeTintColor: '#fff',
-      inactiveTintColor: '#ddd',
-      style: {
-        backgroundColor: '#4d535e',
-      }
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      App: AppStack,
+      Auth: AuthStack,
+    },
+    {
+      initialRouteName: 'AuthLoading',
     }
-  });
-
-const AppContainer = createAppContainer(AppTabNavigator);
+  )
+);

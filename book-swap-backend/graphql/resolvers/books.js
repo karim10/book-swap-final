@@ -10,17 +10,15 @@ module.exports = {
     }
   },
   addBookToCurrentUser: async (args, req) => {
-    // if (!req.isAuth) {
-    //   throw new Error('Unauthenticated!');
-    // }
+    if (!req.isAuth) {
+      throw new Error('Unauthenticated!');
+    }
     try {
-      // hardcoded userId
-      const creator = await User.findById('5cffc0d7c675257807d8f896');
+      const creator = await User.findById(req.userId);
       if (!creator) {
         throw new Error('User not found.');
       }
       const book = await Book.findOne({_id: args.bookId});
-      console.log(book);
       creator.ownedBooks.push(book._doc);
       await creator.save();
       return creator;
@@ -29,9 +27,9 @@ module.exports = {
     }
   },
   addBook: async (args) => {
-    // if (!req.isAuth) {
-    //   throw new Error('Unauthenticated!');
-    // }
+    if (!req.isAuth) {
+      throw new Error('Unauthenticated!');
+    }
     const book = new Book({
       googleApiId: args.bookInput.googleApiId
     });
