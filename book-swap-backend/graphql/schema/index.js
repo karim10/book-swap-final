@@ -17,6 +17,7 @@ module.exports = buildSchema(`
             userId: ID!
             token: String!
             tokenExpiration: Int!
+            ownedBooks: [Book!]!
         }
 
         input UserInput {
@@ -32,6 +33,7 @@ module.exports = buildSchema(`
             books: [Book!]!
             users: [User!]
             login(email: String!, password: String!): AuthData!
+            getBooksCurrentUser: [Book!]!
         }
  
         type RootMutation {

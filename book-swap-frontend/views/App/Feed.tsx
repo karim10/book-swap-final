@@ -1,8 +1,9 @@
 import React from 'react';
 import { Container, Content } from 'native-base';
-import { CardComponent, CardComponentProps } from '../../components/Card';
-import { Button, AsyncStorage } from 'react-native';
+import { CardComponent, BookProps } from '../../components/Card';
+import { Button } from 'react-native';
 import deviceStorage from '../../deviceStorage';
+import axios from 'axios';
 
 interface HomeState {
   books: any[];
@@ -15,15 +16,25 @@ export class Feed extends React.Component<any, HomeState>{
     }
   }
 
-  componentDidMount() {
-    fetch('https://www.googleapis.com/books/v1/volumes?q=game').then(
-      (response) => response.json()
-    ).then(result => {
-      this.setState({
-        books: result.items
-      })
+  async componentDidMount() {
+    const jwtToken = await deviceStorage.getItem('id_token');
+    const headers = {
+      Authorization: `Bearer ${jwtToken}`
     }
-    )
+    const requestBody = {
+      query: `
+            query {
+              getBooksCurrentUser {
+                googleApiId
+              }
+            }
+          `
+    };
+    axios.post('http://192.168.1.44:3002/graphql', requestBody, { headers }).then(response => {
+      console.log(response.data);
+    }).catch(e => {
+      console.log(e);
+    });
   }
 
   signOutAsync = async () => {
@@ -34,18 +45,18 @@ export class Feed extends React.Component<any, HomeState>{
   render() {
     return (
       <Container>
-        <Content>
+        {/* <Content>
           {this.state.books.map(book => {
-            const cardComponentProps: CardComponentProps = {
+            const bookProps: BookProps = {
               authors: book.volumeInfo.authors,
               categories: book.volumeInfo.authors,
               imageURI: book.volumeInfo.imageLinks.smallThumbnail,
               pageCount: book.volumeInfo.pageCount,
               title: book.volumeInfo.title
             }
-            return <CardComponent key={book.id} {...cardComponentProps} />
+            return <CardComponent key={book.id} {...bookProps} />
           })}
-        </Content>
+        </Content> */}
         <Button title="Actually, sign me out :)" onPress={this.signOutAsync} />
       </Container>
     );

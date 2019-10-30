@@ -1,20 +1,23 @@
 import * as React from 'react';
-import { Image } from 'react-native';
+import { Image, View, TouchableHighlight } from 'react-native';
 import { Card, CardItem, Text, Button, Icon, Left, Body, Right } from 'native-base';
 
-export interface CardComponentProps {
+export interface BookProps {
+  id: string,
   title: string;
   authors: string[];
   categories: string[];
   imageURI: string;
   pageCount: number;
+  navigateToBook: any;
+  description: string;
 }
 
 interface CardComponentState {
   imgWidth: number;
 }
 
-export class CardComponent extends React.Component<CardComponentProps, CardComponentState> {
+export class CardComponent extends React.Component<BookProps, CardComponentState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,42 +30,46 @@ export class CardComponent extends React.Component<CardComponentProps, CardCompo
       this.setState({
         imgWidth: width * (200 / height)
       })
-    }, (e) => console.log(e))
+    }, (e) => console.log(e));
   }
-  
+
   public render() {
     const { title, authors, categories, imageURI, pageCount } = this.props;
-    return <Card>
-      <CardItem>
-        <Left>
-          <Body>
-            <Text>{title}</Text>
-            <Text note>{authors[0]}</Text>
+    return <TouchableHighlight onPress={() => this.props.navigateToBook('Book', {
+      book: this.props
+    })}>
+      <Card>
+        <CardItem>
+          <Left>
+            <Body>
+              <Text>{title}</Text>
+              <Text note>{authors[0]}</Text>
+            </Body>
+          </Left>
+        </CardItem>
+        <CardItem>
+          <Body style={{ height: 200 }}>
+            <Image source={{ uri: imageURI }} style={{ height: 200, width: this.state.imgWidth, flex: 1 }} />
           </Body>
-        </Left>
-      </CardItem>
-      <CardItem>
-        <Body style={{ height: 200 }}>
-          <Image source={{ uri: imageURI }} style={{ height: 200, width: this.state.imgWidth, flex: 1 }} />
-        </Body>
-      </CardItem>
-      <CardItem>
-        <Left>
-          <Button transparent>
-            <Icon active name="thumbs-up" />
-            <Text>{pageCount}</Text>
-          </Button>
-        </Left>
-        <Body>
-          <Button transparent>
-            <Icon active name="chatbubbles" />
-            <Text>4 Comments</Text>
-          </Button>
-        </Body>
-        <Right>
-          <Text>{categories[0]}</Text>
-        </Right>
-      </CardItem>
-    </Card>
+        </CardItem>
+        <CardItem>
+          <Left>
+            <Button transparent>
+              <Icon active name="thumbs-up" />
+              <Text>{pageCount}</Text>
+            </Button>
+          </Left>
+          <Body>
+            <Button transparent>
+              <Icon active name="chatbubbles" />
+              <Text>4 Comments</Text>
+            </Button>
+          </Body>
+          <Right>
+            <Text>{categories[0]}</Text>
+          </Right>
+        </CardItem>
+      </Card>
+    </TouchableHighlight>
   }
 }
