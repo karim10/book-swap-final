@@ -41,8 +41,8 @@ export default class Book extends React.Component<NavigationScreenProps, any> {
             }
           `
         };
-        axios.post('http://192.168.1.44:3002/graphql', requestBody, { headers }).then(response => {
-            console.log(response);
+        axios.post('http://192.168.0.16:3002/graphql', requestBody, { headers }).then(response => {
+            console.log(response.data);
         })
             .catch(e => {
                 console.log(e);

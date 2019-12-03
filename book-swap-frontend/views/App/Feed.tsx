@@ -30,8 +30,16 @@ export class Feed extends React.Component<any, HomeState>{
             }
           `
     };
-    axios.post('http://192.168.1.44:3002/graphql', requestBody, { headers }).then(response => {
-      console.log(response.data);
+    axios.post('http://192.168.0.16:3002/graphql', requestBody, { headers }).then(response => {
+      console.log(response.data.data.getBooksCurrentUser);
+      response.data.data.getBooksCurrentUser.map(book => {
+        axios.get(`https://www.googleapis.com/books/v1/volumes/${book.googleApiId}`).then(response => {
+          const bookDetails = response.data as BookProps;
+          this.setState({
+            books: this.state.books.concat(bookDetails)
+          })
+        })
+      });
     }).catch(e => {
       console.log(e);
     });
@@ -45,18 +53,21 @@ export class Feed extends React.Component<any, HomeState>{
   render() {
     return (
       <Container>
-        {/* <Content>
+        <Content>
           {this.state.books.map(book => {
             const bookProps: BookProps = {
               authors: book.volumeInfo.authors,
               categories: book.volumeInfo.authors,
               imageURI: book.volumeInfo.imageLinks.smallThumbnail,
               pageCount: book.volumeInfo.pageCount,
-              title: book.volumeInfo.title
+              title: book.volumeInfo.title,
+              description: book.volumeInfo.description,
+              navigateToBook: this.props.navigation.navigate,
+              id: book.id
             }
             return <CardComponent key={book.id} {...bookProps} />
           })}
-        </Content> */}
+        </Content>
         <Button title="Actually, sign me out :)" onPress={this.signOutAsync} />
       </Container>
     );

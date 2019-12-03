@@ -33,7 +33,7 @@ module.exports = {
         const result = await newBook.save();
         book = result;
       }
-      const isBookOwned = creator.ownedBooks.find(bookId => bookId = book._id) !== undefined;
+      const isBookOwned = creator.ownedBooks.find(bookId => {return bookId == book._id.toString()});
       if (isBookOwned) {
         throw new Error('Book already owned by this user');
       }

@@ -54,7 +54,7 @@ export class LoginForm extends Component<{ navigateToHome: () => void }, { login
                 password: password
             }
         };
-        axios.post('http://192.168.1.44:3002/graphql', requestBody).then(response => {
+        axios.post('http://192.168.0.16:3002/graphql', requestBody).then(response => {
             deviceStorage.saveItem('id_token', response.data.data.login.token);
             this.props.navigateToHome();
         })

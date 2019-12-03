@@ -54,7 +54,7 @@ export class SignUpForm extends Component<SingUpFormProps, { login: string, pass
             }
           `
         };
-        axios.post('http://192.168.1.44:3002/graphql', requestBody).then(response => {
+        axios.post('http://192.168.0.16:3002/graphql', requestBody).then(response => {
             deviceStorage.saveItem('id_token', response.data.data.createUser.token);
             this.props.navigateToHome();
         })
