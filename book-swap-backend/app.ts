@@ -1,14 +1,15 @@
-import express = require('express');
-import bodyParser = require('body-parser');
-import graphqlHttp = require('express-graphql');
-import mongoose = require('mongoose');
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as graphqlHttp from 'express-graphql';
+import * as mongoose from 'mongoose';
 
 /**
  * setting up the certificate
  */
-import fs = require('fs');
-import http = require('http');
-import https = require('https');
+import * as fs from 'fs';
+import * as http from 'http';
+import * as https from 'https';
+
 const privateKey = fs.readFileSync('certificate/key.pem', 'utf8');
 const certificate = fs.readFileSync('certificate/cert.pem', 'utf8');
 
@@ -56,8 +57,7 @@ mongoose
     },
   )
   .then(() => {
-    httpsServer.listen(3001);
-    httpServer.listen(3002);
+    httpServer.listen(3000);
   })
   .catch((e: any) => {
     // tslint:disable-next-line: no-console

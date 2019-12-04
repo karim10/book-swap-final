@@ -5,7 +5,7 @@
         "MONGO_DB": "book-swap"
     },
     "watch": [
-        "src"
-    ],
-    "ext": "ts"
+        "src",
+        "*.ts"
+    ]
 }

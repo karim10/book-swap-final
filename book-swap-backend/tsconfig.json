@@ -3,7 +3,7 @@
         "module": "commonjs",
         "strict": true,
         "baseUrl": "./",
-        "outDir": "./dist",
+        "outDir": "dist",
         "removeComments": true,
         "experimentalDecorators": true,
         "target": "es6",
