@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "prettier:fix": "prettier --single-quote --trailing-comma es5 --write '**/*.js'"
+    "prettier:fix": "prettier --single-quote --trailing-comma=es5 --print-width 80 es5 --write '**/*.ts'"
   },
   "author": "",
   "license": "ISC",
@@ -16,11 +16,20 @@
     "dataloader": "^1.4.0",
     "express": "^4.16.4",
     "express-graphql": "^0.8.0",
-    "graphql": "^14.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.6"
   },
   "devDependencies": {
-    "prettier": "1.17.0"
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.2",
+    "@types/express-graphql": "^0.9.0",
+    "@types/jsonwebtoken": "^8.3.5",
+    "@types/mongoose": "^5.5.32",
+    "@types/node": "^12.12.14",
+    "graphql": "^14.5.8",
+    "prettier": "1.17.0",
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
   }
 }

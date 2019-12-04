@@ -1,5 +1,5 @@
-const authResolver = require('./auth');
-const booksResolver = require('./books');
+import authResolver = require('./auth');
+import booksResolver = require('./books');
 
 const rootResolver = {
   ...authResolver,

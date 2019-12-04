@@ -3,5 +3,9 @@
         "MONGO_USER": "karimby",
         "MONGO_PASSWORD": "XyoaoWpu6LKpqFsj",
         "MONGO_DB": "book-swap"
-    }
+    },
+    "watch": [
+        "src"
+    ],
+    "ext": "ts"
 }

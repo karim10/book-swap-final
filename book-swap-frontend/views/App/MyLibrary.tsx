@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Content, Text, View } from 'native-base';
+import { Container, View } from 'native-base';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet, NativeSyntheticEvent, TextInputSubmitEditingEventData, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -26,6 +26,7 @@ export default class MyLibrary extends React.Component<NavigationScreenProps, an
     const searchText = searchInput.nativeEvent.text;
     this.setState({ loading: true }, () => {
       axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchText}`).then(response => {
+        console.log(response.data.items);
         this.setState({
           loading: false,
           searchedBooks: response.data.items
@@ -34,7 +35,6 @@ export default class MyLibrary extends React.Component<NavigationScreenProps, an
         this.setState({
           loading: false,
         })
-        
         console.log("Error: ", e);
       })
     })
@@ -51,7 +51,7 @@ export default class MyLibrary extends React.Component<NavigationScreenProps, an
         navigateToBook: this.props.navigation.navigate,
         id: book.id
       }
-      return <CardComponent key={book.id} {...bookProps}/>
+      return <CardComponent key={book.id} {...bookProps} />
     })
   }
   render() {
@@ -76,7 +76,7 @@ export default class MyLibrary extends React.Component<NavigationScreenProps, an
             </View>
             <View>
             </View>
-            {loading ? <ActivityIndicator size={'large'} color='#0000ff' style={styles.spinner}/> : this.getBooks()}
+            {loading ? <ActivityIndicator size={'large'} color='#0000ff' style={styles.spinner} /> : this.getBooks()}
 
           </View>
         </ScrollView>
@@ -85,7 +85,7 @@ export default class MyLibrary extends React.Component<NavigationScreenProps, an
   }
 }
 
-export const MyLibraryStack = createStackNavigator({ MyLibrary,  Book}, {
+export const MyLibraryStack = createStackNavigator({ MyLibrary, Book }, {
   headerMode: 'none'
 })
 

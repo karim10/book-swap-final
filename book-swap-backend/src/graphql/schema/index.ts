@@ -1,6 +1,6 @@
-const { buildSchema } = require('graphql');
+import { buildSchema } from 'graphql';
 
-module.exports = buildSchema(`
+export default  buildSchema(`
         type Book {
             _id: ID!
             googleApiId: String!
@@ -35,7 +35,7 @@ module.exports = buildSchema(`
             login(email: String!, password: String!): AuthData!
             getBooksCurrentUser: [Book!]!
         }
- 
+
         type RootMutation {
             addBookToCurrentUser(bookId: ID!): User
             createUser(userInput: UserInput!): AuthData!

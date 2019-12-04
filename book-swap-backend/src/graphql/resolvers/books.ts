@@ -1,13 +1,13 @@
-const DataLoader = require('dataloader');
+import * as DataLoader from 'dataloader';
 
-const Book = require('../../models/book');
-const User = require('../../models/user');
+import { Book } from '../../models/book';
+import { User, IUser } from '../../models/user';
 
-const bookLoader = new DataLoader(bookIds => {
+const bookLoader = new DataLoader((bookIds: number[]) => {
   return books(bookIds);
 });
 
-const books = async (bookIds) => {
+const books = async (bookIds: number[]) => {
   try {
     return await Book.find({ _id: { $in: bookIds } });
   } catch (err) {
@@ -16,7 +16,7 @@ const books = async (bookIds) => {
 };
 
 module.exports = {
-  addBookToCurrentUser: async (args, req) => {
+  addBookToCurrentUser: async (args: any, req: any) => {
     if (!req.isAuth) {
       throw new Error('Unauthenticated!');
     }
@@ -26,54 +26,56 @@ module.exports = {
         throw new Error('User not found.');
       }
       let book = await Book.findOne({ googleApiId: args.bookId });
-      if (book === null) {
+      if (book == null) {
         const newBook = new Book({
-          googleApiId: args.bookId
+          googleApiId: args.bookId,
         });
         const result = await newBook.save();
         book = result;
       }
-      const isBookOwned = creator.ownedBooks.find(bookId => {return bookId == book._id.toString()});
+      const isBookOwned = creator.ownedBooks.find(
+        (bookId: number) => bookId === book!._id.toString()
+      );
       if (isBookOwned) {
         throw new Error('Book already owned by this user');
       }
-      creator.ownedBooks.push(book._doc);
+      creator.ownedBooks.push(book.id);
       await creator.save();
       return creator;
     } catch (err) {
       throw err;
     }
   },
-  getBooksCurrentUser: async (_args, req) => {
+  getBooksCurrentUser: async (_args: any, req: any) => {
     if (!req.isAuth) {
       throw new Error('Unauthenticated!');
     }
     try {
-      console.log("somehing");
-      const creator = await User.findById(req.userId);
-      console.log("HI: ", creator.ownedBooks);
+      const creator: IUser | null = await User.findById(req.userId);
+      if (creator == null) {
+        return;
+      }
       const ownedBooks = () => bookLoader.loadMany(creator.ownedBooks);
-      console.log("HELLO: ", ownedBooks());
       return ownedBooks();
     } catch (err) {
       throw err;
     }
   },
-  addBook: async (args) => {
+  addBook: async (args: any, req: any) => {
     if (!req.isAuth) {
       throw new Error('Unauthenticated!');
     }
     const book = new Book({
-      googleApiId: args.bookInput.googleApiId
+      googleApiId: args.bookInput.googleApiId,
     });
 
     try {
-      const result = await book.save(book);
+      const result = await book.save();
       return {
-        ...result._doc,
-      }
+        ...result,
+      };
     } catch (err) {
       throw err;
     }
-  }
+  },
 };

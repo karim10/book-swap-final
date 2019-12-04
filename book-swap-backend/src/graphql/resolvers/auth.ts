@@ -1,10 +1,10 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 
-const User = require('../../models/user');
+import { User } from '../../models/user';
 
 module.exports = {
-  users: async (args, req) => {
+  users: async (_args: any, req: any) => {
     if (!req.isAuth) {
       throw new Error('Unauthenticated!');
     }
@@ -14,7 +14,7 @@ module.exports = {
       throw new Error(err);
     }
   },
-  createUser: async args => {
+  createUser: async (args: any) => {
     try {
       const existingUser = await User.findOne({ email: args.userInput.email });
       if (existingUser) {
@@ -26,14 +26,18 @@ module.exports = {
         password: hashedPassword,
       });
       const result = await user.save();
-      const token = jwt.sign({ userId: result._id, email: result.email }, 'somesupersecretkey', { expiresIn: '1h' });
-      return { userId: result._id, token: token, tokenExpiration: 1 };
+      const token = jwt.sign(
+        { userId: result._id, email: result.email },
+        'somesupersecretkey',
+        { expiresIn: '1h' },
+      );
+      return { userId: result._id, token, tokenExpiration: 1 };
     } catch (err) {
       throw err;
     }
   },
-  login: async ({ email, password }) => {
-    const user = await User.findOne({ email: email });
+  login: async ({ email, password }: { email: string; password: string }) => {
+    const user = await User.findOne({ email });
     if (!user) {
       throw new Error('User does not exist!');
     }
@@ -41,7 +45,16 @@ module.exports = {
     if (!isEqual) {
       throw new Error('Password is incorrect!');
     }
-    const token = jwt.sign({ userId: user.id, email: user.email }, 'somesupersecretkey', { expiresIn: '1h' });
-    return { userId: user.id, token: token, tokenExpiration: 1, books: user.ownedBooks }
-  }
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      'somesupersecretkey',
+      { expiresIn: '1h' },
+    );
+    return {
+      userId: user.id,
+      token,
+      tokenExpiration: 1,
+      books: user.ownedBooks,
+    };
+  },
 };

@@ -43,7 +43,7 @@ export class CardComponent extends React.Component<BookProps, CardComponentState
           <Left>
             <Body>
               <Text>{title}</Text>
-              <Text note>{authors[0]}</Text>
+              <Text note>{authors && authors.length > 0 ? authors[0] : 'no author'}</Text>
             </Body>
           </Left>
         </CardItem>
@@ -66,7 +66,7 @@ export class CardComponent extends React.Component<BookProps, CardComponentState
             </Button>
           </Body>
           <Right>
-            <Text>{categories[0]}</Text>
+            <Text>{categories && categories.length > 0 ?  categories[0] : 'no category'}</Text>
           </Right>
         </CardItem>
       </Card>
