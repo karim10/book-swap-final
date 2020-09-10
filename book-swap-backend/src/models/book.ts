@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export interface IBook {
+export interface IBook extends mongoose.Document{
   googleApiId: string;
 }
 
@@ -11,4 +11,4 @@ const bookSchema = new mongoose.Schema({
   },
 });
 
-export const Book = mongoose.model('Book', bookSchema);
+export const Book = mongoose.model<IBook>('Book', bookSchema);

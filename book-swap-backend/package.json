@@ -2,11 +2,12 @@
   "name": "graphql-react-events-booking",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
-    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' app.ts",
+    "start": "nodemon",
+    "build:prod": "tsc app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier:fix": "prettier --single-quote --trailing-comma=es5 --print-width 80 es5 --write '**/*.ts'"
+    "prettier:fix": "prettier --single-quote --trailing-comma=es5 --print-width 80 es5 --write [**/*.ts, *.ts]"
   },
   "author": "",
   "license": "ISC",
