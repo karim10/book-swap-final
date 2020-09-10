@@ -58,7 +58,7 @@ mongoose
     },
   )
   .then(() => {
-    httpServer.listen(3007);
+    httpServer.listen(3001);
   })
   .catch((e: any) => {
     // tslint:disable-next-line: no-console
