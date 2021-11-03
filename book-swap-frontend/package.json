@@ -28,7 +28,7 @@
     "react-navigation": "^3.11.1",
     "tcomb-form-native": "^0.6.20",
     "typescript": "^3.5.3",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1"
